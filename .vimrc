@@ -34,7 +34,7 @@ autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 " Disable jedi python dic
 autocmd FileType python setlocal completeopt-=preview expandtab
-autocmd FileType html,css EmmetInstall
+autocmd FileType html,css EmmetInstall setlocal nofoldenable
 autocmd FileType c setlocal nosmartindent cindent
 
 syntax on
@@ -43,7 +43,7 @@ set background=dark
 set backspace=2
 set cursorline
 set encoding=utf8
-set foldmethod=syntax
+set foldmethod=indent
 set foldnestmax=4
 set hlsearch
 set incsearch
@@ -76,23 +76,47 @@ nmap <leader>p :NERDTreeFind <CR>
 inoremap jk <ESC>
 inoremap <C-t> <Esc>:tabnew<CR>
 
-nnoremap <C-t>     :tabnew<CR>
+nnoremap <CR> :noh<CR><CR>
 nnoremap <silent> n n:call HLNext(0.2)<cr>
 nnoremap <silent> N N:call HLNext(0.2)<cr>
+nnoremap <C-t>     :tabnew<CR>
+nnoremap <C-Left> :tabprevious<CR>
+nnoremap <C-Right> :tabnext<CR>
+nnoremap <silent> <A-Left> :execute 'silent! tabmove ' . (tabpagenr()-2)<CR>
+nnoremap <silent> <A-Right> :execute 'silent! tabmove ' . tabpagenr()<CR>
 nnoremap <F5> :buffers<CR>:buffer<Space>
-nnoremap <CR> :noh<CR><CR>
-noremap ;l :
 
+noremap ;l :
+noremap <leader>1 1gt
+noremap <leader>2 2gt
+noremap <leader>3 3gt
+noremap <leader>4 4gt
+noremap <leader>5 5gt
+noremap <leader>6 6gt
+noremap <leader>7 7gt
+noremap <leader>8 8gt
+noremap <leader>9 9gt
+noremap <leader>0 :tablast<cr>
+
+" Move lines, right or left
 vnoremap > >gv
 vnoremap < <gv
+
+" Move lines, up or down
+nnoremap <C-Down> :m .+1<CR>==
+nnoremap <C-Up> :m .-2<CR>==
+inoremap <C-Down> <Esc>:m .+1<CR>==gi
+inoremap <C-Up> <Esc>:m .-2<CR>==gi
+vnoremap <C-Down> :m '>+1<CR>gv=gv
+vnoremap <C-Up> :m '<-2<CR>gv=gv
 
 let NERDTreeIgnore=["\.pyc$", "\.out$"]
 let NERDTreeMouseMode=2
 
-let g:jedi#auto_initialization=1
-let g:jedi#auto_vim_configuration=1
-let g:jedi#popup_on_dot=0
-let g:jedi#show_call_signatures = 1
+"let g:jedi#auto_initialization=1
+"let g:jedi#auto_vim_configuration=1
+"let g:jedi#popup_on_dot=0
+"let g:jedi#show_call_signatures = 1
 
 " Airline
 let g:airline_powerline_fonts = 1
