@@ -21,6 +21,9 @@ Plugin 'mattn/emmet-vim'
 Plugin 'Raimondi/delimitMate'
 Plugin 'morhetz/gruvbox'
 
+Plugin 'godlygeek/tabular'
+Plugin 'terryma/vim-multiple-cursors'
+
 call vundle#end()
 
 filetype plugin indent on
@@ -34,16 +37,17 @@ autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 " Disable jedi python dic
 autocmd FileType python setlocal completeopt-=preview expandtab
-autocmd FileType html,css EmmetInstall setlocal nofoldenable
+autocmd FileType html,css setlocal nofoldenable
+autocmd FileType html,css EmmetInstall
 autocmd FileType c setlocal nosmartindent cindent
 
 syntax on
 colorscheme gruvbox
 set background=dark
 set backspace=2
-set cursorline
+set foldtext=CustomFoldText()
 set encoding=utf8
-set foldmethod=indent
+set foldmethod=syntax
 set foldnestmax=4
 set hlsearch
 set incsearch
@@ -54,6 +58,7 @@ set nobackup
 set noshowmode
 set noswapfile
 set nowritebackup
+set nowrap
 set number
 set ruler
 set shiftwidth=4
@@ -67,10 +72,11 @@ set wildmenu
 set wildignore+=*.pyc,*.out
 
 "highlight ColorColumn ctermbg=magenta
+highlight Normal ctermbg=none
 
 call matchadd('ColorColumn', '\%81v', 100)
 
-nmap <C-n> :NERDTreeToggle <CR>
+nmap <leader>n :NERDTreeToggle <CR>
 nmap <leader>p :NERDTreeFind <CR> 
 
 inoremap jk <ESC>
@@ -79,7 +85,7 @@ inoremap <C-t> <Esc>:tabnew<CR>
 nnoremap <CR> :noh<CR><CR>
 nnoremap <silent> n n:call HLNext(0.2)<cr>
 nnoremap <silent> N N:call HLNext(0.2)<cr>
-nnoremap <C-t>     :tabnew<CR>
+nnoremap <C-t> :tabnew<CR>
 nnoremap <C-Left> :tabprevious<CR>
 nnoremap <C-Right> :tabnext<CR>
 nnoremap <silent> <A-Left> :execute 'silent! tabmove ' . (tabpagenr()-2)<CR>
@@ -121,8 +127,13 @@ let NERDTreeMouseMode=2
 " Airline
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
-"let g:airline_theme="hybrid"
 let g:airline_theme="badwolf"
+let g:airline#extensions#tabline#fnamemod = ':t:r'
+"let g:airline_theme="hybrid"
+"let g:airline_theme="monochrome"
+"let g:airline_theme="murmur"
+"let g:airline_theme="raven"
+"let g:airline_theme="silver"
 
 "Emmet
 let g:user_emmet_install_global = 0
@@ -140,7 +151,13 @@ let g:syntastic_always_populate_loc_list=1
 let g:syntastic_auto_loc_list=1
 let g:syntastic_check_on_open=0
 let g:syntastic_check_on_wq=0
-let g:syntastic_php_checkers = ['php']
+let g:syntastic_error_symbol='✗'
+let g:syntastic_warning_symbol='⚠'
+let g:syntastic_enable_highlighting=0
+let g:syntastic_auto_loc_list=1
+"let g:syntastic_c_checkers = ['cppchecker']
+"let g:syntastic_cpp_checkers = ['cppchecker']
+"let g:syntastic_cpp_compiler = 'clang++'
 let g:syntastic_python_checkers=['flake8']
 let g:syntastic_python_flake8_args='--ignore=E202,E231,E225'
 
@@ -148,8 +165,6 @@ let g:syntastic_python_flake8_args='--ignore=E202,E231,E225'
 let g:UltiSnipsExpandTrigger="<c-j>"
 let g:UltiSnipsJumpForwardTrigger="<c-j>"
 let g:UltiSnipsJumpBackwardTrigger="<c-k>"
-
-" If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
 
 " Tagbar
@@ -158,6 +173,13 @@ let g:tagbar_autofocus=1
 
 " Ack
 "let g:ack_default_options = " -i --color --column --nofollow"
+
+" YCM
+"let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
+let g:ycm_allow_changing_updatetime = 0
+let g:ycm_complete_in_comments = 1
+au BufWritePost *.c,*.cpp,*.h YcmForceCompileAndDiagnostics
+nnoremap <F6> :YcmForceCompileAndDiagnostics<CR>
 
 function! HLNext (blinktime)
 	highlight WhiteOnRed ctermfg=white ctermbg=red
@@ -174,3 +196,22 @@ function! HLNext (blinktime)
 		exec 'sleep ' . float2nr(a:blinktime / (2*blinks) * 1000) . 'm'
 	endfor
 endfunction
+
+fu! CustomFoldText()
+	let fs = v:foldstart
+	while getline(fs) =~ '^\s*$' | let fs = nextnonblank(fs + 1)
+	endwhile
+	if fs > v:foldend
+		let line = getline(v:foldstart)
+	else
+		let line = substitute(getline(fs), '\t', repeat(' ', &tabstop), 'g')
+	endif
+
+	let w = winwidth(0) - &foldcolumn - (&number ? 8 : 0)
+	let foldSize = 1 + v:foldend - v:foldstart
+	let foldSizeStr = "+ | " . foldSize . " lines | "
+	let foldLevelStr = repeat("+--", v:foldlevel)
+	let lineCount = line("$")
+	let expansionString = repeat("-", w - strwidth(foldSizeStr.line.foldLevelStr))
+	return line . expansionString . foldSizeStr . foldLevelStr
+endf
