@@ -36,7 +36,7 @@ autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 " Close VIM if the only window left open is NERDTree
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 " Disable jedi python dic
-autocmd FileType python setlocal completeopt-=preview expandtab
+autocmd FileType python setlocal completeopt-=preview
 autocmd FileType htmldjango,html,css setlocal foldmethod=indent foldnestmax=2 shiftwidth=2 softtabstop=2 tabstop=2
 autocmd FileType php,javascript setlocal foldmethod=indent
 autocmd FileType htmldjango,smarty,html,css EmmetInstall
@@ -48,6 +48,7 @@ set background=dark
 set backspace=2
 set foldtext=CustomFoldText()
 set encoding=utf8
+set expandtab
 set foldmethod=syntax
 set foldnestmax=4
 set hlsearch
@@ -78,13 +79,13 @@ highlight Normal ctermbg=none
 
 call matchadd('ColorColumn', '\%81v', 100)
 
-nmap <leader>n :NERDTreeToggle <CR>
+nmap <C-n> :NERDTreeToggle <CR>
 nmap <leader>p :NERDTreeFind <CR> 
 
 inoremap jk <ESC>
 inoremap <C-t> <Esc>:tabnew<CR>
 
-nnoremap <CR> :noh<CR>
+"nnoremap <CR> :noh<CR>
 nnoremap <silent> n n:call HLNext(0.2)<cr>
 nnoremap <silent> N N:call HLNext(0.2)<cr>
 nnoremap <C-t> :tabnew<CR>
@@ -162,7 +163,10 @@ let g:syntastic_auto_loc_list=1
 "let g:syntastic_cpp_compiler = 'clang++'
 let g:syntastic_python_checkers=['flake8']
 let g:syntastic_python_flake8_args='--ignore=E202,E231,E225,E501'
-let g:syntastic_php_checkers = ['php', 'phpmd']
+let g:syntastic_php_checkers = ['phpmd']
+let g:syntastic_javascript_checkers = ["gjslint"]
+let g:syntastic_javascript_gjslint_exec = "gjslint"
+let g:syntastic_html_tidy_exec = "tidy"
 
 " Ultisnips
 let g:UltiSnipsExpandTrigger="<c-j>"
