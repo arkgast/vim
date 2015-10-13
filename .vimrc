@@ -166,6 +166,7 @@ let g:syntastic_python_flake8_args='--ignore=E202,E231,E225,E501'
 let g:syntastic_php_checkers = ['phpmd']
 let g:syntastic_javascript_checkers = ["gjslint"]
 let g:syntastic_javascript_gjslint_exec = "gjslint"
+let g:syntastic_javascript_gjslint_args='--max_line_length=120 --check_html'
 let g:syntastic_html_tidy_exec = "tidy"
 
 " Ultisnips
