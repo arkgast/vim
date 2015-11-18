@@ -21,6 +21,10 @@ Plugin 'mattn/emmet-vim'
 Plugin 'Valloric/MatchTagAlways'
 Plugin 'Raimondi/delimitMate'
 Plugin 'morhetz/gruvbox'
+Plugin 'mxw/vim-jsx'
+Plugin 'pangloss/vim-javascript'
+Plugin 'JulesWang/css.vim'
+Plugin 'genoma/vim-less'
 
 Plugin 'godlygeek/tabular'
 
@@ -39,7 +43,7 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 autocmd FileType python setlocal completeopt-=preview
 autocmd FileType htmldjango,html,css setlocal foldmethod=indent foldnestmax=2 shiftwidth=2 softtabstop=2 tabstop=2
 autocmd FileType php,javascript setlocal foldmethod=indent
-autocmd FileType htmldjango,smarty,html,css EmmetInstall
+autocmd FileType htmldjango,smarty,html,css,javascript.jsx EmmetInstall
 autocmd FileType c setlocal nosmartindent cindent
 
 syntax on
@@ -94,6 +98,7 @@ nnoremap <C-Right> :tabnext<CR>
 nnoremap <silent> <A-Left> :execute 'silent! tabmove ' . (tabpagenr()-2)<CR>
 nnoremap <silent> <A-Right> :execute 'silent! tabmove ' . tabpagenr()<CR>
 nnoremap <F5> :buffers<CR>:buffer<Space>
+nnoremap <F3> :set hlsearch!<CR>
 
 noremap ;l :
 noremap <leader>0 :tablast<cr>
@@ -140,6 +145,7 @@ let g:mta_filetypes = {
     \ 'xml' : 1,
     \ 'htmldjango' : 1,
     \ 'smarty' : 1,
+    \ 'javascript.jsx' : 1,
     \}
 
 "CtrlP Conf
@@ -166,7 +172,8 @@ let g:syntastic_python_flake8_args='--ignore=E202,E231,E225,E501'
 let g:syntastic_php_checkers = ['phpmd']
 let g:syntastic_javascript_checkers = ["gjslint"]
 let g:syntastic_javascript_gjslint_exec = "gjslint"
-let g:syntastic_javascript_gjslint_args='--max_line_length=120 --check_html'
+let g:syntastic_javascript_gjslint_args='--max_line_length=120 --check_html --nojsdoc'
+
 let g:syntastic_html_tidy_exec = "tidy"
 
 " Ultisnips
