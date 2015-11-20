@@ -41,10 +41,8 @@ autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 " Disable jedi python dic
 autocmd FileType python setlocal completeopt-=preview
-autocmd FileType htmldjango,html,css setlocal foldmethod=indent foldnestmax=2 shiftwidth=2 softtabstop=2 tabstop=2
-autocmd FileType php,javascript setlocal foldmethod=indent
 autocmd FileType htmldjango,smarty,html,css,javascript.jsx EmmetInstall
-autocmd FileType c setlocal nosmartindent cindent
+autocmd FileType c setlocal nosmartindent cindent foldmethod=syntax
 
 syntax on
 colorscheme gruvbox
@@ -53,8 +51,8 @@ set backspace=2
 set foldtext=CustomFoldText()
 set encoding=utf8
 set expandtab
-set foldmethod=syntax
-set foldnestmax=4
+set foldmethod=indent
+set foldnestmax=2
 set hlsearch
 set incsearch
 exec "set listchars=tab:\uBB\uBB,nbsp:_,trail:\uB7"
@@ -67,13 +65,13 @@ set nowritebackup
 set nowrap
 set number
 set ruler
-set shiftwidth=4
+set shiftwidth=2
 set showcmd
 set showtabline=2
 set smartindent
-set softtabstop=4
+set softtabstop=2
 "set spell
-set tabstop=4
+set tabstop=2
 set t_Co=256
 set wildmenu
 set wildignore+=*.pyc,*.out
@@ -150,6 +148,7 @@ let g:mta_filetypes = {
 
 "CtrlP Conf
 let g:ctrlp_map = '<c-p>'
+let g:ctrlp_custom_ignore = '\v[\/](node_modules|dist)|(\.(git|svn))$'
 
 "Syntastic
 set statusline+=%#warningmsg#
