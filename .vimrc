@@ -8,7 +8,6 @@ Plugin 'gmarik/Vundle.vim'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'scrooloose/syntastic'
 Plugin 'scrooloose/nerdtree'
-Plugin 'bling/vim-airline'
 Plugin 'kien/ctrlp.vim'
 Plugin 'mhinz/vim-signify'
 Plugin 'tpope/vim-fugitive'
@@ -23,10 +22,9 @@ Plugin 'Raimondi/delimitMate'
 Plugin 'morhetz/gruvbox'
 Plugin 'mxw/vim-jsx'
 Plugin 'pangloss/vim-javascript'
-Plugin 'JulesWang/css.vim'
-Plugin 'genoma/vim-less'
-
 Plugin 'godlygeek/tabular'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 
 call vundle#end()
 
@@ -113,24 +111,14 @@ inoremap <C-Up> <Esc>:m .-2<CR>==gi
 vnoremap <C-Down> :m '>+1<CR>gv=gv
 vnoremap <C-Up> :m '<-2<CR>gv=gv
 
-let NERDTreeIgnore=["\.pyc$", "\.out$"]
+let NERDTreeIgnore=["\.pyc$", "\.out$", "node_modules"]
 let NERDTreeMouseMode=2
-
-"let g:jedi#auto_initialization=1
-"let g:jedi#auto_vim_configuration=1
-"let g:jedi#popup_on_dot=0
-"let g:jedi#show_call_signatures = 1
 
 " Airline
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_theme="badwolf"
 let g:airline#extensions#tabline#fnamemod = ':t:r'
-"let g:airline_theme="hybrid"
-"let g:airline_theme="monochrome"
-"let g:airline_theme="murmur"
-"let g:airline_theme="raven"
-"let g:airline_theme="silver"
 
 "Emmet
 let g:user_emmet_install_global = 0
@@ -169,9 +157,8 @@ let g:syntastic_auto_loc_list=1
 let g:syntastic_python_checkers=['flake8']
 let g:syntastic_python_flake8_args='--ignore=E202,E231,E225,E501'
 let g:syntastic_php_checkers = ['phpmd']
-let g:syntastic_javascript_checkers = ["gjslint"]
-let g:syntastic_javascript_gjslint_exec = "gjslint"
-let g:syntastic_javascript_gjslint_args='--max_line_length=120 --check_html --nojsdoc'
+let g:syntastic_javascript_checkers = ["eslint"]
+let g:syntastic_javascript_eslint_exec = "eslint"
 
 let g:syntastic_html_tidy_exec = "tidy"
 

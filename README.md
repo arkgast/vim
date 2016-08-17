@@ -1,5 +1,5 @@
 # vim
-Add javascript checker https://github.com/google/closure-linter
 
-Install 
-apt-get install phpmd
+Clone the repo `git clone https://github.com/arkgast/vim ~/.vim`
+
+Run the next command `./run` require sudo
