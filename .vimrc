@@ -25,6 +25,7 @@ Plugin 'pangloss/vim-javascript'
 Plugin 'godlygeek/tabular'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
+Plugin 'gko/vim-coloresque'
 
 call vundle#end()
 
@@ -37,8 +38,6 @@ autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 " Close VIM if the only window left open is NERDTree
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
-" Disable jedi python dic
-autocmd FileType python setlocal completeopt-=preview
 autocmd FileType htmldjango,smarty,html,css,javascript.jsx EmmetInstall
 autocmd FileType c setlocal nosmartindent cindent foldmethod=syntax
 
@@ -111,7 +110,7 @@ inoremap <C-Up> <Esc>:m .-2<CR>==gi
 vnoremap <C-Down> :m '>+1<CR>gv=gv
 vnoremap <C-Up> :m '<-2<CR>gv=gv
 
-let NERDTreeIgnore=["\.pyc$", "\.out$", "node_modules"]
+let NERDTreeIgnore=["^\.pyc$", "^\.out$", "node_modules"]
 let NERDTreeMouseMode=2
 
 " Airline
@@ -159,7 +158,6 @@ let g:syntastic_python_flake8_args='--ignore=E202,E231,E225,E501'
 let g:syntastic_php_checkers = ['phpmd']
 let g:syntastic_javascript_checkers = ["eslint"]
 let g:syntastic_javascript_eslint_exec = "eslint"
-
 let g:syntastic_html_tidy_exec = "tidy"
 
 " Ultisnips
@@ -179,6 +177,7 @@ let g:tagbar_autofocus=1
 "let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
 let g:ycm_allow_changing_updatetime = 0
 let g:ycm_complete_in_comments = 1
+let g:ycm_autoclose_preview_window_after_insertion = 1
 au BufWritePost *.c,*.cpp,*.h YcmForceCompileAndDiagnostics
 nnoremap <F6> :YcmForceCompileAndDiagnostics<CR>
 
